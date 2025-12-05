@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre o Sistema - UFRRJ</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ufrrj-theme.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+    <%
+        String contextPath = request.getContextPath();
+    %>
+    <link rel="stylesheet" href="<%= contextPath %>/assets/css/ufrrj-theme.css">
+    <link rel="stylesheet" href="<%= contextPath %>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -14,31 +17,35 @@
         <div class="container">
             <div class="header-top">
                 <div class="logo-section">
-                    <img src="${pageContext.request.contextPath}/assets/img/logo-ufrrj.png" alt="UFRRJ" class="logo">
+                    <img src="<%= contextPath %>/assets/img/logo-ufrrj.png" alt="UFRRJ" class="logo">
                     <div class="titles">
                         <h1>UFRRJ</h1>
                         <h2>Sistema de Extensão</h2>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <c:choose>
-                        <c:when test="${not empty sessionScope.usuario}">
-                            <span class="welcome">${sessionScope.nomeUsuario}</span>
-                            <a href="${pageContext.request.contextPath}/dashboard" class="btn btn-sm">Dashboard</a>
-                            <a href="${pageContext.request.contextPath}/logout" class="btn btn-sm btn-outline">Sair</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/login" class="btn btn-sm">Login</a>
-                        </c:otherwise>
-                    </c:choose>
+                    <%
+                        String nomeUsuario = (String) session.getAttribute("nomeUsuario");
+                        if (nomeUsuario != null && !nomeUsuario.isEmpty()) {
+                    %>
+                        <span class="welcome"><%= nomeUsuario %></span>
+                        <a href="<%= contextPath %>/dashboard" class="btn btn-sm">Dashboard</a>
+                        <a href="<%= contextPath %>/logout" class="btn btn-sm btn-outline">Sair</a>
+                    <%
+                        } else {
+                    %>
+                        <a href="<%= contextPath %>/login" class="btn btn-sm">Login</a>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
 
             <nav class="main-nav">
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/">Início</a></li>
-                    <li><a href="${pageContext.request.contextPath}/acoes">Ações</a></li>
-                    <li><a href="${pageContext.request.contextPath}/sobre" class="active">Sobre</a></li>
+                    <li><a href="<%= contextPath %>/">Início</a></li>
+                    <li><a href="<%= contextPath %>/acoes">Ações</a></li>
+                    <li><a href="<%= contextPath %>/sobre" class="active">Sobre</a></li>
                 </ul>
             </nav>
         </div>
